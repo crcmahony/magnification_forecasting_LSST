@@ -40,9 +40,9 @@ def fix_parameters(values_inifile, varied_params):
 					new_values[vp].append(line)
 	return new_values
 
-pipeline_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/clustering_mag_template.ini'
-grid_vals_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/values_clustering_mag_grid.ini'
-testdir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_mag/'
+pipeline_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/joint_template.ini'
+grid_vals_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/values_joint_grid.ini'
+testdir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_joint/'
 
 generate_single_executable = True
 
@@ -90,6 +90,24 @@ if generate_single_executable == True:
 	os.system('chmod +x %s'%single_executable)
 		
 	
+job_string = ('#!/bin/bash\n'
+			'#PBS -q mediumc7\n'
+			'#PBS -N grid_sampler\n'
+			#'#PBS -t 1-%s%%10\n'
+			#'#PBS -l nodes=1:ppn=%s\n'
+                        '#PBS -l nodes=1:ppn=1:typeb\n'
+			'#PBS -l mem=20gb\n'
+			'\n'
+                        'source /unix/atlas4/akorn/LSST/cosmosis/cosmosis/setup-my-cosmosis\n\n'
+			#% (len(grid_new_values.keys()), NCORES)
+		)
+
+
+with open(join(testdir, 'exec_all_jobs.sh'), 'w') as script:
+	script.write('#!/bin/bash\n')
+os.system('chmod +x %s'%join(testdir, 'exec_all_jobs.sh'))
+
+
 # save values.inis
 for i, key in enumerate(grid_new_values.keys()):
 	with open(join(testdir, "values_%s_grid.ini"%key), 'w') as new_vini:
@@ -97,14 +115,20 @@ for i, key in enumerate(grid_new_values.keys()):
 			new_vini.write(line)
 
 	# make executables
-	exec_filename = join(testdir, 'exec_pipelines_%s.sh'%(i+1))
+	exec_filename = join(testdir, 'exec_pipeline_%s.sh'%(i+1))
 	with open(exec_filename, 'w') as exec_file:
 		exec_string = (#'#!/bin/bash\n'
 				'echo "' + key + '"\n\n'
+
 				'cosmosis ' + testdir + 'pipeline_' + key + '_grid.ini\n\n'
 				)
-		exec_file.write(exec_string)
+		exec_file.write(job_string + '\n' + exec_string)
 	os.system('chmod +x %s'%exec_filename)
+
+	with open(join(testdir, 'exec_all_jobs.sh'), 'a') as script:
+		script.write('qsub exec_pipeline_%s.sh\n'%(i+1))
+
+	
 
 	if generate_single_executable == True:
 		with open(single_executable, 'a') as single_file:
@@ -112,6 +136,7 @@ for i, key in enumerate(grid_new_values.keys()):
 					'echo "' + key + '"\n\n'
 					'cosmosis ' + testdir + 'pipeline_' + key + '_grid.ini\n\n')
 			single_file.write(cosmosis_command)
+
 	
 		
 
@@ -123,22 +148,16 @@ for key, new_pipeline in new_pipelines.items():
 		for line in new_pipeline:
 			new_pipe.write(line)
 
-job_string = ('#!/bin/bash\n'
-			'#PBS -q mediumc7\n'
-			'#PBS -N grid_sampler\n'
-			'#PBS -t 1-%s%%10\n'
-			'#PBS -l nodes=1:ppn=%s\n'
-			'#PBS -l mem=20gb\n'
-			'\n'
-			'source /unix/atlas4/akorn/LSST/cosmosis/cosmosis/setup-my-cosmosis\n'
-			'\n'
-			% (len(grid_new_values.keys()), NCORES)
-		)
+"""
 
 job_string += '\n' + testdir + 'exec_pipelines_${PBS_ARRAYID}.sh\n'
 
-with open(join(testdir, 'exec_job_array.sh'), 'w') as script:
+for i in np.arange():
+execute_list
+
+with open(join(testdir, 'exec_all_jobs.sh'), 'a') as script:
 	script.write(job_string)
+"""
 
 
 

@@ -41,9 +41,9 @@ def fix_parameters(values_inifile, varied_params):
 					new_values[vp].append(line)
 	return new_values
 
-pipeline_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/clustering_mag_template.ini'
-fisher_vals_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/values_clustering_mag_fisher.ini'
-testdir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/fisher_jobs_mag/'
+pipeline_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/joint_template.ini'
+fisher_vals_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/values_joint_fisher.ini'
+testdir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/fisher_jobs_joint/'
 
 generate_single_executable = True
 
@@ -91,6 +91,24 @@ for i, key in enumerate(fisher_new_values.keys()):
 	with open(join(testdir, "values_%s_fisher.ini"%key), 'w') as new_vini:
 		for line in fisher_new_values[key]:
 			new_vini.write(line)
+
+job_string = ('#!/bin/bash\n'
+			'#PBS -q shortc7\n'
+			'#PBS -N fisher_sampler\n'
+			#'#PBS -t 1-%s%%10\n'
+			#'#PBS -l nodes=1:ppn=%s\n'
+                        '#PBS -l nodes=1:ppn=1:typeb\n'
+			'#PBS -l mem=20gb\n'
+			'\n'
+                        'source /unix/atlas4/akorn/LSST/cosmosis/cosmosis/setup-my-cosmosis\n\n'
+			#% (len(grid_new_values.keys()), NCORES)
+		)
+
+
+with open(join(testdir, 'exec_all_jobs.sh'), 'w') as script:
+	script.write('#!/bin/bash\n')
+os.system('chmod +x %s'%join(testdir, 'exec_all_jobs.sh'))
+
 """
 	# make executables
 	exec_filename = join(testdir, 'exec_pipelines_%s.sh'%(i+1))
@@ -149,12 +167,14 @@ for key, new_pipeline in new_pipelines.items():
 
 	for i in range(len(filenames)):
 		#executable_number = executables_counter*number_of_fisher_steps_to_try + i + 1
-		exec_filename = testdir + 'exec_pipelines_%s.sh'%(executables_counter*number_of_fisher_steps_to_try + i + 1)
+		exec_filename = testdir + 'exec_pipeline_%s.sh'%(executables_counter*number_of_fisher_steps_to_try + i + 1)
 		print(executables_counter*number_of_fisher_steps_to_try + i + 1)
 		with open(exec_filename, 'w') as exec_file:
 			exec_string = ('cosmosis ' + filenames[i])
-			exec_file.write(exec_string)
+			exec_file.write(job_string + '\n' + exec_string)
 		os.system('chmod +x %s'%exec_filename)
+		with open(join(testdir, 'exec_all_jobs.sh'), 'a') as script:
+			script.write('qsub exec_pipeline_%s.sh\n'%(executables_counter*number_of_fisher_steps_to_try + i + 1))
 
 	if generate_single_executable == True:
 		for i in range(len(filenames)):
@@ -169,14 +189,16 @@ for key, new_pipeline in new_pipelines.items():
 	executables_counter += 1
 
 
+
+
 ###################################################################
 # CREATE JOB SCRIPT
 ###################################################################
 
-
+"""
 job_string = ('#!/bin/bash\n'
 			'#PBS -q mediumc7\n'
-			'#PBS -N fisher_testing_clustering\n'
+			'#PBS -N fisher_testing_joint\n'
 			'#PBS -t 1-%s%%10\n'
 			'#PBS -l nodes=1:ppn=%s\n'
 			'#PBS -l mem=20gb\n'
@@ -191,4 +213,5 @@ job_string += '\n' + testdir + '/exec_pipelines_${PBS_ARRAYID}.sh\n'
 
 with open(join(testdir, 'exec_job_array.sh'), 'w') as script:
 	script.write(job_string)
+"""
 
