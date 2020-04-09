@@ -7,56 +7,52 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as ml
 import math
 
-def new_handle(**kwargs):
-    return ml.Line2D([], [], **kwargs)
+def read_and_normalise_grid(grid_dir, param):
+        grid_file = [i for i in listdir(grid_dir) if param + '_grid_out.' in i]
+        grid = np.loadtxt(grid_dir + grid_file[0])
+        x, L = grid.T
+        exp_L = [math.exp(i) for i in L]
+        area = np.trapz(exp_L, x)
+        L = exp_L / area
+        return x, L
 
-testdir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_mag/'
-grid_files = [i for i in listdir(testdir) if i.endswith('grid_out.txt')]
-    
-marginals = {}
+grid_dir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_clustering_mag/'
+grid_dir2 = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_clustering_mag_gold/'
 
+grid_files = [i for i in listdir(grid_dir) if i.endswith('grid_out.txt')]
 params = [i.replace('_grid_out.txt', '') for i in grid_files]
-for param in params:    
-    grid = np.loadtxt(join(testdir, param+'_grid_out.txt')) 
-    x, L = grid.T
-    exp_L = [math.exp(i) for i in L]
-    area = np.trapz(exp_L, x)
-    L = exp_L / area 
-    marginals[param+'_grid'] = np.column_stack((x, L))    
-
-print(params)
+print(len(params))
+params = [x for x in params if not x.startswith('nz_')]
 print(len(params))
 
-if len(params)%4 == 0:
-    print(len(params)%4)
-    x = 0 
-else: 
-    x = 1 
+if len(params)%4 == 0: x = 0 
+else: x = 1 
 
 f, axe = plt.subplots(len(params)//4 + x, 4)
-#f, axe = plt.subplots(1, 2)
-print(len(params)//4 + x)
 ax = axe.flatten()
-for i, param in enumerate(params):
-    print(i)
-    grid = np.loadtxt(join(testdir, param+'_grid_out.txt')) 
-    gx, gf = marginals[param+'_grid'].T
-    ax[i].plot(gx, gf, c='g', zorder=10)
-    mean_grid = np.sum(np.multiply(gx,gf)) / np.sum(gf)
-    var_grid = np.sum(np.multiply((np.subtract(gx,mean_grid))**2.0, gf)) / np.sum(gf)
 
-    #h = [new_handle(ls='', label='\n'.join(param.split('--')))]
-    #ax[i].legend(handles=h, loc='best', fontsize=8)
-    #ax[i].xaxis.set_ticks([])
-    #ax[i].yaxis.set_ticks([])
-	
-    ax[i].set_ylabel('Posterior')
-    ax[i].set_xlabel(str(param))
+for i, param in enumerate(params):
+    gx, gf = read_and_normalise_grid(grid_dir, param)
+    ax[i].plot(gx, gf, c='C0', label='clustering magnification n-sample') #, zorder=10)
+    #mean_grid = np.sum(np.multiply(gx,gf)) / np.sum(gf)
+    #var_grid = np.sum(np.multiply((np.subtract(gx,mean_grid))**2.0, gf)) / np.sum(gf)
+
+    gx2, gf2 = read_and_normalise_grid(grid_dir2, param)
+    ax[i].plot(gx2, gf2, c='C0', ls='--', label='clustering magnification e-sample')    
+
+    ax[i].set_xlabel(str(param), fontsize=12)
+    ax[i].set_ylabel('P', fontsize=12)
+    ax[i].xaxis.set_major_locator(plt.MaxNLocator(4))
+    ax[i].tick_params(axis ='both', labelsize = 9)
 
 
 #axe[-1,-1].axis('off')
-f.set_size_inches(18, 12) 
+f.set_size_inches(18, 10) 
+f.delaxes(ax.flatten()[18])
+f.delaxes(ax.flatten()[19])
+
 plt.tight_layout()
-plt.subplots_adjust(wspace=0)
-#plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_L_nz_fixed.png')
+plt.legend(bbox_to_anchor=(1.6, 0.97))
+#plt.subplots_adjust(wspace=0)
+plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/plots/grid_clustering_mag_clustering_mag_gold.png')
 plt.show()
