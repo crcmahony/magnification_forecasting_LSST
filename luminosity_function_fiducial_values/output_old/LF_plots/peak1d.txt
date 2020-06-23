@@ -1,0 +1,12 @@
+#parameter peak1d
+#LF.txt
+hod_parameters--lgm1     11.2402
+hod_parameters--lgl0     9.95148
+hod_parameters--g1     3.10854
+hod_parameters--g2     0.245415
+hod_parameters--scatter     0.247574
+hod_parameters--alfa_s     -1.15314
+hod_parameters--b0     -1.20434
+hod_parameters--b1     1.52888
+hod_parameters--b2     -0.215666
+post     nan

@@ -1,0 +1,1 @@
+_cosmosis_order_lf_l_photz = 'bin_cosmosis_order_lum'

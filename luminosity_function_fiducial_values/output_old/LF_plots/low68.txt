@@ -1,0 +1,12 @@
+#parameter low68
+#LF.txt
+hod_parameters--lgm1     11.2138
+hod_parameters--lgl0     9.94535
+hod_parameters--g1     3.12418
+hod_parameters--g2     0.239864
+hod_parameters--scatter     0.0789873
+hod_parameters--alfa_s     -1.19955
+hod_parameters--b0     -1.20039
+hod_parameters--b1     1.52216
+hod_parameters--b2     -0.237988
+post     13.6271

@@ -1,0 +1,6 @@
+/unix/atlas4/akorn/LSST/cosmosis/cosmosis/cosmosis/runtime/attribution.py:30: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(open(filename))
+- Best fit:
+10.980889850027154   9.899126277738917   2.9976505102092124   0.42885438960005107   0.046933202001357366   -0.18001485736631428   -0.6261191455396311   1.5007880151810573   -0.17679546880903974
+- Likelihood: -2181870.2968919254
+
