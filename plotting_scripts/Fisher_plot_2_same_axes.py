@@ -8,7 +8,7 @@ import matplotlib.gridspec as gridspec
 import scipy.stats
 norm = scipy.stats.norm
 
-pdf_baseline = lambda l, s: np.linspace( norm.ppf(0.01, loc=l, scale=s), norm.ppf(0.99, loc=l, scale=s), 100 )
+pdf_baseline = lambda l, s: np.linspace( norm.ppf(0.001, loc=l, scale=s), norm.ppf(0.999, loc=l, scale=s), 100 )
 minmax = lambda x: (x.min(), x.max())
 
 def tick_ranger(data_range, nticks=5, short=0, **kwargs):
@@ -26,16 +26,32 @@ def tick_ranger(data_range, nticks=5, short=0, **kwargs):
                 # makes tick labels to 3dp and removes the first and last
                 # so for 3 labels, feed nticks=5
                 ticks = np.linspace(data_range.min(), data_range.max(), nticks)
-                tlabs = ["%.3f"%t for t in ticks]
+                rounded_ticks = np.copy(ticks)
+
+                rounded_ticks[1]=np.round(ticks[1],2)
+                rounded_ticks[2]=np.round(ticks[2],2)
+                rounded_ticks[3]=np.round(ticks[3],2)
+                if len(rounded_ticks) != len(set(rounded_ticks)):
+                        rounded_ticks[1]=np.round(ticks[1],3)
+                        rounded_ticks[2]=np.round(ticks[2],3)
+                        rounded_ticks[3]=np.round(ticks[3],3)
+                if len(rounded_ticks) != len(set(rounded_ticks)):
+                        rounded_ticks[1]=np.round(ticks[1],4)
+                        rounded_ticks[2]=np.round(ticks[2],4)
+                        rounded_ticks[3]=np.round(ticks[3],4)
+
+                tlabs = ["%f"%t for t in rounded_ticks] #.3
+
         tlabs = [tl.rstrip('0') for tl in tlabs]
         tlabs[0] = tlabs[-1] = ''
-        return ticks, tlabs
+        print('ticks: ', rounded_ticks)
+        return rounded_ticks, tlabs
 
 def make_plot_grid(params, labsz):
     # tick and axis label-sizes
-    mpl.rcParams['xtick.labelsize'] = 14
-    mpl.rcParams['ytick.labelsize'] = 14
-    mpl.rcParams['axes.labelsize'] = labsz
+    mpl.rcParams['xtick.labelsize'] = 16
+    mpl.rcParams['ytick.labelsize'] = 16
+    mpl.rcParams['axes.labelsize'] = 22
 
     # feed a list of parameter axis labels
     # length of which sets size of plot array
@@ -73,12 +89,12 @@ def make_plot_grid(params, labsz):
                         # append to axis list and key list so that inverse is skipped
                         axes.append(ax)
                         axids.append(axid)
-    plt.tight_layout()
+    #plt.tight_layout()
     plt.subplots_adjust(wspace=0, hspace=0)
     # return dictionary where axis keys point to the axis instance
     return dict(zip(axids, axes))
 
-def fisher_grid(cov_array, cov_array2, maxlikes, axes=None, params=None, labelsize=26, cov_color='r', cov2_color='b', **kwargs):
+def fisher_grid(cov_array, cov_array2, maxlikes, axes=None, params=None, labelsize=26, cov_color='b', cov2_color='r', **kwargs):
 
         # check cov inputs
         if type(cov_array) == np.ndarray:
@@ -118,7 +134,7 @@ def fisher_grid(cov_array, cov_array2, maxlikes, axes=None, params=None, labelsi
                         x_var2 = cov2[i, i]
                         y_var2 = cov2[j, j]
 
-                        # define 0.01 - 0.99 baseline for pdf
+                        # define 0.001 - 0.999 baseline for pdf
                         x_baseline = pdf_baseline(x_mean, x_var**0.5)
                         y_baseline = pdf_baseline(y_mean, y_var**0.5)
 
@@ -155,7 +171,7 @@ def fisher_grid(cov_array, cov_array2, maxlikes, axes=None, params=None, labelsi
                         axk.set_xlim(minmax(x_baseline))
                         x_ticks, x_tlabs = tick_ranger(x_baseline)
                         axk.set_xticks( x_ticks )
-                        axk.set_xticklabels( x_tlabs )
+                        axk.set_xticklabels( x_tlabs, rotation=45 )
                         # append keys as before, for skipping inverses
                         keys.append(key)
 
