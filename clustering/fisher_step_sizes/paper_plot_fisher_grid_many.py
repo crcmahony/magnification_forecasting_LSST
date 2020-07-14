@@ -22,10 +22,10 @@ def calculate_fisher_std_dev(fisher_dir, optimum_step_size_fisher_filename):
         std_dev = (fisher**(-1.))**0.5
         return std_dev
 
-fisher_dir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/fisher_jobs_clustering_mag_gold/'
-grid_dir= '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_clustering_mag_gold/'
-step_size_choice = 'clustering_mag_gold'
-plot_type = 'percentage_diff' #'overlay'
+fisher_dir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/fisher_jobs_clustering_mag/'
+grid_dir= '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_clustering_mag/'
+step_size_choice = 'clustering_mag'
+plot_type = 'overlay' #'percentage_diff'
 
 grid_files = [i for i in listdir(grid_dir) if i.endswith('grid_out.txt')]
 params = [i.replace('_grid_out.txt', '') for i in grid_files]
@@ -107,11 +107,11 @@ if step_size_choice == 'clustering_gold':
 
 if step_size_choice == 'clustering_mag':
         fish_files['cosmological_parameters--omega_m'] = 'cosmological_parameters--omega_m_fisher_out0022.txt'
-        fish_files['cosmological_parameters--h0'] = 'cosmological_parameters--h0_fisher_out0010.txt'
-        fish_files['cosmological_parameters--omega_b'] = 'cosmological_parameters--omega_b_fisher_out0005.txt'
-        fish_files['cosmological_parameters--n_s'] = 'cosmological_parameters--n_s_fisher_out0010.txt'
-        fish_files['cosmological_parameters--e9A_s'] = 'cosmological_parameters--e9A_s_fisher_out0022.txt'
-        fish_files['cosmological_parameters--w'] = 'cosmological_parameters--w_fisher_out0010.txt'
+        fish_files['cosmological_parameters--h0'] = 'cosmological_parameters--h0_fisher_out0022.txt' #0010.txt'
+        fish_files['cosmological_parameters--omega_b'] = 'cosmological_parameters--omega_b_fisher_out0022.txt' #0005.txt'
+        fish_files['cosmological_parameters--n_s'] = 'cosmological_parameters--n_s_fisher_out0022.txt' #0010.txt'
+        fish_files['cosmological_parameters--e9A_s'] = 'cosmological_parameters--e9A_s_fisher_out0046.txt' #0022.txt'
+        fish_files['cosmological_parameters--w'] = 'cosmological_parameters--w_fisher_out0215.txt' #0010.txt'
         fish_files['cosmological_parameters--wa'] = 'cosmological_parameters--wa_fisher_out0215.txt'
 
         fish_files['hod_parameters--lgM1'] = 'hod_parameters--lgM1_fisher_out0005.txt'
@@ -133,7 +133,7 @@ if step_size_choice == 'clustering_mag':
         fish_files['nz_n_sample_errors--bias_7'] = 'nz_n_sample_errors--bias_7_fisher_out0005.txt'
         fish_files['nz_n_sample_errors--bias_8'] = 'nz_n_sample_errors--bias_8_fisher_out0005.txt'
         fish_files['nz_n_sample_errors--bias_9'] = 'nz_n_sample_errors--bias_9_fisher_out0005.txt'
-        fish_files['nz_n_sample_errors--bias_10'] = 'nz_n_sample_errors--bias_10_fisher_out0046.txt'
+        fish_files['nz_n_sample_errors--bias_10'] = 'nz_n_sample_errors--bias_10_fisher_out0100.txt'
 
         fish_files['magnification_bias--alpha_m'] = 'magnification_bias--alpha_m_fisher_out0005.txt'
         fish_files['magnification_bias--beta_m'] = 'magnification_bias--beta_m_fisher_out0005.txt'
@@ -304,7 +304,7 @@ f.set_size_inches(18, 10)
 plt.tight_layout()
 #plt.subplots_adjust(wspace=0)
 plt.legend()
-plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/plots/fisher_grid_matched_clustering_mag_gold_diff.png')
+plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/plots/fisher_grid_matched_clustering_mag.png')
 plt.show()
 
 
