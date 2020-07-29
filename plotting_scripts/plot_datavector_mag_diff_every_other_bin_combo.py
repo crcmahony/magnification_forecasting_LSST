@@ -26,7 +26,7 @@ def calculate_1sigma_bounds(Cl_values, cov):
 ###################################################
 # Create figure and desired subplots
 
-fig = plt.figure(figsize=(24,24))
+fig = plt.figure(figsize=(10,10))
 
 subplotsrequired = (2,3,4,5,7,8,9,10,13,14,15,19,20,25)
 
@@ -119,7 +119,7 @@ def plot_sigma_discrepancy(plot_index, index, ell):
         ax[plot_index].plot(ell, w_sigma_discrepancy, color='C1', ls='--')
         ax[plot_index].plot(ell, As_sigma_discrepancy, color='C2', ls='--')
 
-chosen_plots = [2,4,6,8,19,21,23,25,34,36,38,45,47,50]
+chosen_plots = [2,4,6,8,19,21,23,25,34,36,38,45,47,52]
 
 for counter, value in enumerate(chosen_plots):
 	plot_sigma_discrepancy(counter, value, ell)
@@ -143,12 +143,16 @@ axset.set_yticks([10.0**(-2.0),10.0**(0.0),10.0**(2.0)])
 
 
 #labellist = ['(' + str(j) + ',' + str(i) + ')' for i in np.arange(1,11,1) for j in np.arange(i,11,1)]
+labellist = ['(1,1)', '(3,1)', '(5,1)', '(7,1)', '(9,1)', '(3,3)', '(5,3)', '(7,3)', '(9,3)', '(5,5)', '(7,5)', '(9,5)', '(7,7)', '(9,7)', '(9,9)']
 #print(labellist)
 
-#axset.text(0.05,0.75,labellist[0],horizontalalignment='left',verticalalignment='bottom',transform=axset.transAxes,size=10)
+axset.text(0.05,0.75,labellist[0],horizontalalignment='left',verticalalignment='bottom',transform=axset.transAxes,size=12)
 
-#for i in range(54):
-#    ax[i].text(0.05,0.75,labellist[i+1],horizontalalignment='left',verticalalignment='bottom',transform=ax[i].transAxes,size=10)
+axset.axhspan(2.0, 10.0**2.0, alpha=0.3, color='grey')
+
+for i in range(14):
+    ax[i].text(0.05,0.75,labellist[i+1],horizontalalignment='left',verticalalignment='bottom',transform=ax[i].transAxes,size=12)
+    ax[i].axhspan(2.0, 10.0**2.0, alpha=0.3, color='grey')
 
 
 #######################################################
@@ -158,10 +162,10 @@ line_5s = mlines.Line2D([],[],color='C0', label = '$\Omega_m$ 5$\sigma$ bias', l
 w_line = mlines.Line2D([],[],color='C1', label = '$w$ 5$\sigma$ bias', lw = 1.0, linestyle='--')
 As_line = mlines.Line2D([],[],color='C2', label = '$A_s$ 5$\sigma$ bias', lw = 1.0, linestyle='--')
 line_mag = mlines.Line2D([],[],color='k', label = 'Magnification', lw = 1.0, linestyle='-')
-plt.legend(handles=[line_mag, line_5s, As_line, w_line], bbox_to_anchor=(-3.0,2.5),loc='upper right',borderaxespad=0.3,fontsize = 14)
+plt.legend(handles=[line_mag, line_5s, As_line, w_line], bbox_to_anchor=(-2.1,2.9),loc='upper right',borderaxespad=0.3,fontsize = 14)
 
 ######################################################
 # Save/Show
 
-#plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/plotting_scripts/thesis_bias_plots/5sigma_bias_compared_to_mag_gold.pdf')
+plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/plotting_scripts/thesis_bias_plots/5sigma_bias_compared_to_mag_gold_every_other_sigma_shading.pdf')
 plt.show()
