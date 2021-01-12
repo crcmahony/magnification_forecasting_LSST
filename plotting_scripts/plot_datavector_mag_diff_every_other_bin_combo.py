@@ -34,9 +34,30 @@ axset = fig.add_subplot(5,5,1)
 
 ax = [fig.add_subplot(5, 5, i, sharex=axset, sharey=axset) for i in subplotsrequired]
 
-for a in ax:
-    plt.setp(a.get_xticklabels(), visible = False) #hide tick labels on subplots
-    plt.setp(a.get_yticklabels(), visible = False)
+#for a in ax:
+    #plt.setp(a.get_xticklabels(), visible = False) #hide tick labels on subplots
+
+plt.setp(ax[0].get_yticklabels(), visible = False)
+plt.setp(ax[1].get_yticklabels(), visible = False)
+plt.setp(ax[2].get_yticklabels(), visible = False)
+plt.setp(ax[3].get_yticklabels(), visible = False)
+plt.setp(ax[5].get_yticklabels(), visible = False)
+plt.setp(ax[6].get_yticklabels(), visible = False)
+plt.setp(ax[7].get_yticklabels(), visible = False)
+plt.setp(ax[9].get_yticklabels(), visible = False)
+plt.setp(ax[10].get_yticklabels(), visible = False)
+plt.setp(ax[12].get_yticklabels(), visible = False)
+
+plt.setp(ax[0].get_xticklabels(), visible = False)
+plt.setp(ax[1].get_xticklabels(), visible = False)
+plt.setp(ax[2].get_xticklabels(), visible = False)
+plt.setp(ax[3].get_xticklabels(), visible = False)
+plt.setp(ax[5].get_xticklabels(), visible = False)
+plt.setp(ax[6].get_xticklabels(), visible = False)
+plt.setp(ax[7].get_xticklabels(), visible = False)
+plt.setp(ax[9].get_xticklabels(), visible = False)
+plt.setp(ax[10].get_xticklabels(), visible = False)
+plt.setp(ax[12].get_xticklabels(), visible = False)
 
 fig.subplots_adjust(wspace=0, hspace=0) #set spacing between subplots to zero
 
@@ -44,8 +65,8 @@ fig.subplots_adjust(wspace=0, hspace=0) #set spacing between subplots to zero
 #########################################################
 # Load in data from cosmosis
 
-Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/2pt_datavector/clustering_gold_datavector.fits'
-#Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/2pt_datavector/clustering_datavector_new_LF.fits'
+#Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/2pt_datavector/clustering_gold_datavector.fits'
+Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/2pt_datavector/clustering_datavector.fits'
 Cl_values, ell, cov = read_clustering_Cl_datavector(Cl_datavector_file)
 Cl_plus, Cl_minus, std_dev = calculate_1sigma_bounds(Cl_values, cov)
 
@@ -58,20 +79,20 @@ print(ell-ell_t)
 print(cov-cov_t)
 """
 
-mag_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_mag_gold/2pt_datavector/clustering_mag_gold_datavector.fits'
-#mag_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_mag/2pt_datavector/clustering_mag_datavector.fits'
+#mag_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_mag_gold/2pt_datavector/clustering_mag_gold_datavector.fits'
+mag_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_mag/2pt_datavector/clustering_mag_datavector.fits'
 mag_Cl_values, mag_ell, mag_cov = read_clustering_Cl_datavector(mag_Cl_datavector_file)
 
-Cl_datavector_file_5s = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/2pt_datavector/clustering_gold_datavector_omega_m_5_sigma_plus.fits'
-#Cl_datavector_file_5s = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/2pt_datavector/clustering_datavector_new_LF_omega_m_5_sigma_plus.fits'
+#Cl_datavector_file_5s = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/2pt_datavector/clustering_gold_datavector_omega_m_3_sigma.fits'
+Cl_datavector_file_5s = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/2pt_datavector/clustering_datavector_omega_m_5_sigma.fits'
 Cl_values_5s, ell_5s, cov_5s = read_clustering_Cl_datavector(Cl_datavector_file_5s)
 
-w_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/2pt_datavector/clustering_gold_datavector_w_5_sigma.fits'
-#w_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/2pt_datavector/clustering_datavector_new_LF_w_5_sigma.fits'
+#w_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/2pt_datavector/clustering_gold_datavector_w_5_sigma.fits'
+w_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/2pt_datavector/clustering_datavector_w_5_sigma.fits'
 w_Cl_values, w_ell, w_cov = read_clustering_Cl_datavector(w_Cl_datavector_file)
 
-As_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/2pt_datavector/clustering_gold_datavector_As_5_sigma.fits'
-#As_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/2pt_datavector/clustering_datavector_new_LF_As_5_sigma.fits'
+#As_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/2pt_datavector/clustering_gold_datavector_As_3_sigma.fits'
+As_Cl_datavector_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/2pt_datavector/clustering_datavector_As_5_sigma.fits'
 As_Cl_values, As_ell, As_cov = read_clustering_Cl_datavector(As_Cl_datavector_file)
 
 
@@ -103,7 +124,7 @@ def plot_sigma_discrepancy_axset(index, ell):
         As_sigma_discrepancy = abs((Cl_values_binned[index] - As_Cl_values_binned[index]))/std_dev_binned[index]
         axset.plot(ell, sigma_discrepancy, color='k', ls='-')
         axset.plot(ell, sigma_discrepancy_5s, color='C0', ls='--')
-        axset.plot(ell, w_sigma_discrepancy, color='C1', ls='--')
+        #axset.plot(ell, w_sigma_discrepancy, color='C1', ls='--')
         axset.plot(ell, As_sigma_discrepancy, color='C2', ls='--')
 
 plot_sigma_discrepancy_axset(0, ell)
@@ -116,7 +137,7 @@ def plot_sigma_discrepancy(plot_index, index, ell):
         As_sigma_discrepancy = abs((Cl_values_binned[index] - As_Cl_values_binned[index]))/std_dev_binned[index]
         ax[plot_index].plot(ell, sigma_discrepancy, color='k', ls='-')
         ax[plot_index].plot(ell, sigma_discrepancy_5s, color='C0', ls='--')
-        ax[plot_index].plot(ell, w_sigma_discrepancy, color='C1', ls='--')
+        #ax[plot_index].plot(ell, w_sigma_discrepancy, color='C1', ls='--')
         ax[plot_index].plot(ell, As_sigma_discrepancy, color='C2', ls='--')
 
 chosen_plots = [2,4,6,8,19,21,23,25,34,36,38,45,47,52]
@@ -134,12 +155,28 @@ for counter, value in enumerate(chosen_plots):
 # Format figure]
 
 axset.set_ylim(ymin = 10**(-3.0))
-axset.set_ylabel('$|C_{\ell}-C_{\ell}^{mag}| \ / \ \sigma$',fontsize=14)
-axset.set_xlabel('$\ell$',fontsize=14)
+
+axset.set_ylabel('$|C_{\ell}-C_{\ell}^{mag}| \ / \ \sigma$',fontsize=15)
+#ax[4].set_ylabel('$|C_{\ell}-C_{\ell}^{mag}| \ / \ \sigma$',fontsize=12)
+#ax[8].set_ylabel('$|C_{\ell}-C_{\ell}^{mag}| \ / \ \sigma$',fontsize=12)
+#ax[11].set_ylabel('$|C_{\ell}-C_{\ell}^{mag}| \ / \ \sigma$',fontsize=12)
+#ax[13].set_ylabel('$|C_{\ell}-C_{\ell}^{mag}| \ / \ \sigma$',fontsize=12)
+
+axset.set_xlabel('$\ell$',fontsize=15)
+#ax[4].set_xlabel('$\ell$',fontsize=14)
+#ax[8].set_xlabel('$\ell$',fontsize=14)
+#ax[11].set_xlabel('$\ell$',fontsize=14)
+#ax[13].set_xlabel('$\ell$',fontsize=14)
+
 axset.set_xscale('log')
 axset.set_yscale('log')
-axset.set_yticks([10.0**(-2.0),10.0**(0.0),10.0**(2.0)])
-#axset.tick_params(labelsize = 12)
+axset.set_yticks([10.0**(-2.0),10.0**(0.0)])
+
+axset.tick_params(labelsize = 11)
+ax[4].tick_params(labelsize = 11)
+ax[8].tick_params(labelsize = 11)
+ax[11].tick_params(labelsize = 11)
+ax[13].tick_params(labelsize = 11)
 
 
 #labellist = ['(' + str(j) + ',' + str(i) + ')' for i in np.arange(1,11,1) for j in np.arange(i,11,1)]
@@ -162,10 +199,10 @@ line_5s = mlines.Line2D([],[],color='C0', label = '$\Omega_m$ 5$\sigma$ bias', l
 w_line = mlines.Line2D([],[],color='C1', label = '$w$ 5$\sigma$ bias', lw = 1.0, linestyle='--')
 As_line = mlines.Line2D([],[],color='C2', label = '$A_s$ 5$\sigma$ bias', lw = 1.0, linestyle='--')
 line_mag = mlines.Line2D([],[],color='k', label = 'Magnification', lw = 1.0, linestyle='-')
-plt.legend(handles=[line_mag, line_5s, As_line, w_line], bbox_to_anchor=(-2.1,2.9),loc='upper right',borderaxespad=0.3,fontsize = 14)
+plt.legend(handles=[line_mag, line_5s, As_line], bbox_to_anchor=(-2.4,2.7),loc='upper right',borderaxespad=0.3,fontsize = 14)
 
 ######################################################
 # Save/Show
 
-plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/plotting_scripts/thesis_bias_plots/5sigma_bias_compared_to_mag_gold_every_other_sigma_shading.pdf')
+plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/plotting_scripts/magnification_paper_plots/n_sample_5_sigma_bias_2.pdf')
 plt.show()

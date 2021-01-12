@@ -7,32 +7,38 @@ import matplotlib.pylab as plt
 import matplotlib.lines as mlines
 
 ########## Options #############################
-#F2 = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_mag/output/fisher_clustering_mag2.txt')
-#F = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/output/fisher_clustering.txt')
+#F = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/shear/output/fisher_shear.txt')
+#F2 = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/output/fisher_clustering_gold3.txt')
 
-F2 = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/Fisher_matrices_with_priors/fisher_clustering_mag_priors2.txt')
-F = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/Fisher_matrices_with_priors/fisher_clustering_mag_priors.txt')
+#F = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/shear_clustering/fisher_shear_plus_clustering/shear_clustering_gold.txt')
+#F2 = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/shear_clustering/fisher_shear_plus_clustering/shear_clustering_mag_gold.txt')
+
+#F2 = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/shear_clustering_fisher_matrices_with_priors/fisher_shear_clustering_mag_gold_priors.txt')
+#F = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/shear_clustering_fisher_matrices_with_priors/fisher_shear_clustering_gold_priors.txt')
+
+F = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/cacciato_rerun/clustering_fishers/clustering_gold_priors.txt')
+F2 = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/cacciato_rerun/clustering_fishers/clustering_mag_gold_priors.txt')
+
 
 
 covF = np.linalg.inv(F)
 covF2 = np.linalg.inv(F2)
 
-filename = 'thesis_contours/clustering_clustering_mag_cos_params_priors2.png'
+filename = 'magnification_paper_plots/clustering_gold_clustering_mag_gold_cos_params.pdf'
 
 plot_cos_params = True
 plot_HOD_params = False
 plot_nz_params = False
 plot_bias_params = False
 
-F2_col = 'orange'
-
-F2_line = mlines.Line2D([],[],color=F2_col, label = '$C_{nn}$ $n$-sample including magnification terms 2', lw = 2.0)
+F_col = 'b' #'r' #'b'
+F_line = mlines.Line2D([],[],color=F_col, label = '$C_{nn}$ $\epsilon$-sample', lw = 2.0)
 #F_line = mlines.Line2D([],[],color='b', label = '$C_{nn}$ $\epsilon$-sample', lw = 2.0)
 #F_line = mlines.Line2D([],[],color='b', label = '$C_{nn}$ $\epsilon$-sample including magnification terms', lw = 2.0)
 #F_line = mlines.Line2D([],[],color='b', label = '$C_{nn}$ $\epsilon$-sample', lw = 2.0)
 
-F_col = 'r'
-F_line = mlines.Line2D([],[],color=F_col, label = '$C_{nn}$ $n$-sample including magnification terms 1', lw = 2.0) #F2 is blue, largest covariance first
+F2_col = 'yellowgreen' #'orange' #'yellowgreen'
+F2_line = mlines.Line2D([],[],color=F2_col, label = '$C_{nn}$ $\epsilon$-sample including magnification terms', lw = 2.0) #F2 is blue, largest covariance first
 #F2_line = mlines.Line2D([],[], color='maroon', label = '$C_{nn}$ $n$-sample including magnification terms', lw = 2.0) #F2 is blue, largest covariance first
 #F2_line = mlines.Line2D([],[],color='midnightblue', label = '$C_{nn}$ $\epsilon$-sample including magnification terms', lw = 2.0)
 #F2_line = mlines.Line2D([],[],color='r', label = '$C_{nn}$ $n$-sample including magnification terms', lw = 2.0)

@@ -44,21 +44,21 @@ def tick_ranger(data_range, nticks=5, short=0, **kwargs):
 
         tlabs = [tl.rstrip('0') for tl in tlabs]
         tlabs[0] = tlabs[-1] = ''
-        print('ticks: ', rounded_ticks)
+        #print('ticks: ', rounded_ticks)
         return rounded_ticks, tlabs
 
 def make_plot_grid(params, labsz):
     # tick and axis label-sizes
     mpl.rcParams['xtick.labelsize'] = 16
     mpl.rcParams['ytick.labelsize'] = 16
-    mpl.rcParams['axes.labelsize'] = 22
+    mpl.rcParams['axes.labelsize'] = 22 #18
 
     # feed a list of parameter axis labels
     # length of which sets size of plot array
     nparam = len(params)
     print('nparam = %s'%nparam)
 
-    f = plt.figure(figsize=(18,18))
+    f = plt.figure(figsize=(18,18)) #(5,5))
     gs = gridspec.GridSpec(nparam, nparam)
     axes = []
     axids = []
@@ -94,7 +94,7 @@ def make_plot_grid(params, labsz):
     # return dictionary where axis keys point to the axis instance
     return dict(zip(axids, axes))
 
-def fisher_grid(cov_array, cov_array2, maxlikes, axes=None, params=None, labelsize=26, cov_color='b', cov2_color='r', **kwargs):
+def fisher_grid(cov_array, cov_array2, maxlikes, axes=None, params=None, labelsize=26, cov_color='r', cov2_color='b', **kwargs):
 
         # check cov inputs
         if type(cov_array) == np.ndarray:
@@ -130,9 +130,13 @@ def fisher_grid(cov_array, cov_array2, maxlikes, axes=None, params=None, labelsi
                         y_mean = maxlikes["%s%s" % (strj, strj)]
                         # variance from fisher matrix^-1
                         x_var = cov[i, i]
+                        print('x_std_dev: ', x_var**0.5)
                         y_var = cov[j, j]
+                        print('y_std_dev: ', y_var**0.5)
                         x_var2 = cov2[i, i]
+                        print('x2_std_dev: ', x_var2**0.5)
                         y_var2 = cov2[j, j]
+                        print('y2_std_dev: ', y_var2**0.5)
 
                         # define 0.001 - 0.999 baseline for pdf
                         x_baseline = pdf_baseline(x_mean, x_var**0.5)
@@ -144,6 +148,8 @@ def fisher_grid(cov_array, cov_array2, maxlikes, axes=None, params=None, labelsi
                         # define Gaussian pdf
                         pdf = norm.pdf(x_baseline, loc=x_mean, scale=x_var**0.5)
                         pdf2 = norm.pdf(x_baseline2, loc=x_mean, scale=x_var2**0.5)
+                        print(i)
+                        print(x_var**0.5)
 
                         # normalise pdf
                         pdf /= np.trapz(pdf, x_baseline)
@@ -193,10 +199,10 @@ def grid_ells(ells, ax, c='c', a=0.3, lw=1.5, ls='-'):
 def ellipses_2sigma(cov, ids, xy=(-1.019, 0.0)):
         ells = {} 
         for i in np.arange(2)+1:
-                print(i)
+                #print(i)
                 i = int(i)
                 a, b, t, a_width = ellipse_params(cov, ids, CLsigma=i)
-                print(a_width)
+                #print(a_width)
                 if a_width:
                         ells['ell'+str(i)] = Ellipse(xy=xy, width=a, height=b, angle=t)
                 else:

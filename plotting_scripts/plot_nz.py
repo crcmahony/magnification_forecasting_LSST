@@ -51,6 +51,6 @@ axset.set_ylabel('$n(z)$',fontsize=11)
 #plt.title('n(z)')
 plt.legend()
 
-plt.savefig('nz_n_sample_zphot_boundaries.pdf')
+#plt.savefig('nz_n_sample_zphot_boundaries.pdf')
 plt.show()
 

@@ -14,7 +14,7 @@ F = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/dem
 
 covF = np.linalg.inv(F)
 
-filename = 'MCMC_fisher_e_sample_comparison.png'
+filename = 'paper_MCMC_fisher_e_sample_comparison.pdf'
 
 MCMC_line = mlines.Line2D([],[],color='yellowgreen', label = 'MCMC', lw = 2.0)
 Fish_line = mlines.Line2D([],[],color='b', label = 'Fisher', lw = 2.0) #F2 is blue, largest covariance first
@@ -29,7 +29,7 @@ plot, axes = fisher_grid(covF[:7,:7], fiducial, params=par)
 
 ### add emcee contours
 
-data_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/output/MCMC_clustering_gold_cos_params_only.txt'
+data_file = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_gold/output/MCMC_clustering_gold.txt'
 data = np.loadtxt(data_file)
 samples = data[:,:-1]
 
@@ -76,5 +76,5 @@ print(axes)
 plt.legend(handles=[MCMC_line, Fish_line], loc='upper left', bbox_to_anchor=(-5.0,7.0), borderaxespad=0.3,fontsize = 22)
 
 
-plt.savefig(filename, bbox_inches='tight')
+#plt.savefig(filename, bbox_inches='tight')
 plt.show()
