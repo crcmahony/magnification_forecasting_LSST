@@ -41,9 +41,9 @@ def fix_parameters(values_inifile, varied_params):
 					new_values[vp].append(line)
 	return new_values
 
-pipeline_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/joint_template.ini'
-fisher_vals_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/values_joint_fisher.ini'
-testdir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/fisher_jobs_joint/'
+pipeline_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/shear_template.ini'
+fisher_vals_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/values_shear_fisher.ini'
+testdir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/fisher_jobs_shear/'
 
 generate_single_executable = True
 
@@ -93,7 +93,7 @@ for i, key in enumerate(fisher_new_values.keys()):
 			new_vini.write(line)
 
 job_string = ('#!/bin/bash\n'
-			'#PBS -q shortc7\n'
+			'#PBS -q mediumc7\n'
 			'#PBS -N fisher_sampler\n'
 			#'#PBS -t 1-%s%%10\n'
 			#'#PBS -l nodes=1:ppn=%s\n'
@@ -134,9 +134,9 @@ for key, new_pipeline in new_pipelines.items():
 # VARY FISHER STEP SIZES
 ########################################################################
 
-number_of_fisher_steps_to_try = 10
-min_step_size_in_log_space = -4
-max_step_size_in_log_space = -1
+number_of_fisher_steps_to_try = 10 #20
+min_step_size_in_log_space = -4 #-6
+max_step_size_in_log_space = -1 #-0.001
 executables_counter = 0
 
 for key, new_pipeline in new_pipelines.items():
@@ -145,6 +145,7 @@ for key, new_pipeline in new_pipelines.items():
 	output_file = testdir + key + "_out.txt"
 
 	fisher_step_sizes = ['%.4f' % i for i in np.logspace(min_step_size_in_log_space, max_step_size_in_log_space, number_of_fisher_steps_to_try)]
+	print(fisher_step_sizes)
 
 	filenames = [pipeline_ini_file.split('.')[0] + i.split('.')[1] + '.' + pipeline_ini_file.split('.')[1] for i in fisher_step_sizes]
 	vals_filenames = [values_file.split('.')[0] + i.split('.')[1] + '.' + values_file.split('.')[1] for i in fisher_step_sizes]

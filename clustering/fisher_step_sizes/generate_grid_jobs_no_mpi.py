@@ -40,9 +40,9 @@ def fix_parameters(values_inifile, varied_params):
 					new_values[vp].append(line)
 	return new_values
 
-pipeline_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/joint_template.ini'
-grid_vals_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/values_joint_grid.ini'
-testdir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_joint/'
+pipeline_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/shear_template.ini'
+grid_vals_ini = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/values_shear_grid.ini'
+testdir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_shear/'
 
 generate_single_executable = True
 
@@ -140,24 +140,12 @@ for i, key in enumerate(grid_new_values.keys()):
 	
 		
 
-	
-
 # save pipeline.inis
 for key, new_pipeline in new_pipelines.items():
 	with open(join(testdir, "pipeline_%s.ini"%key), 'w') as new_pipe:
 		for line in new_pipeline:
 			new_pipe.write(line)
 
-"""
-
-job_string += '\n' + testdir + 'exec_pipelines_${PBS_ARRAYID}.sh\n'
-
-for i in np.arange():
-execute_list
-
-with open(join(testdir, 'exec_all_jobs.sh'), 'a') as script:
-	script.write(job_string)
-"""
 
 
 

@@ -39,14 +39,18 @@ def find_fisher_std_dev(param, fisher_dir):
                         fisher_std_dev[float(step_sizes[i])] = std_dev
 
         return fisher_std_dev
-
-
-fisher_dir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/fisher_jobs_clustering_mag_gold/'
-grid_dir= '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_clustering_mag_gold/'
+fisher_dir = '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/fisher_jobs_clustering_gold_old/'
+grid_dir= '/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/grid_jobs_clustering_gold_old/'
 
 grid_files = [i for i in listdir(grid_dir) if i.endswith('grid_out.txt')]
 params = [i.replace('_grid_out.txt', '') for i in grid_files]
 print(params)
+
+params = sorted(params)
+
+#print(sorted(params))
+
+#params = [x for x in params if x.startswith('cosmo')]
 
 if len(params)%4 == 0: x = 0 
 else: x = 1 
@@ -60,24 +64,26 @@ for i, param in enumerate(params):
         gx, gL = read_and_normalise_grid(grid_dir, param)
         grid_std_dev = find_grid_std_dev_new(gx, gL)
 
-        ax[i].semilogx(*zip(*fisher_std_dev.items()), linestyle = 'None', marker = 'o', label = 'fisher', color='C1')
-        ax[i].axhline(y = grid_std_dev, color = 'C0', label = 'grid')
+        ax[i].semilogx(*zip(*fisher_std_dev.items()), linestyle = 'None', marker = 'o', label = 'fisher', color='b')
+        #ax[i].axhline(y = grid_std_dev, color = 'C0', label = 'grid')
 
         ax[i].set_xlabel('step size', fontsize=12)
-        ax[i].text(0.03, 0.64, param, verticalalignment='bottom', horizontalalignment='left', transform=ax[i].transAxes, fontsize=12)
+        ax[i].text(0.03, 0.6, param, verticalalignment='bottom', horizontalalignment='left', transform=ax[i].transAxes, fontsize=12)
         ax[i].set_ylabel('$\sigma$', fontsize=12)
         ax[i].tick_params(axis ='both', labelsize = 9)
+        #ax[i].tick_params(bottom =False, labelbottom = False)
         #ax[i].set_yticks([])
 
 #axe[-1,-1].axis('off')
 #f.delaxes(ax.flatten()[26])
-#f.delaxes(ax.flatten()[27])
-plt.legend(loc='center right', bbox_to_anchor=(1.0, 0.45))
-f.set_size_inches(18, 10) 
+#f.delaxes(ax.flatten()[39])
+#plt.legend(loc='center right', bbox_to_anchor=(1.0, 0.45))
+f.set_size_inches(18, 10)
+#f.set_size_inches(18, 5) 
 plt.tight_layout()
-plt.subplots_adjust(hspace=0)
+plt.subplots_adjust(hspace=0.07)
 
-plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/plots/fisher_grid_variance_clustering_mag_gold.png')
+plt.savefig('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/fisher_step_sizes/plots/fisher_variance_clustering_gold_clearer.pdf')
 plt.show()
 
 

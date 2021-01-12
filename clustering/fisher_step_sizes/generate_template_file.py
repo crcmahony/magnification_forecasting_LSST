@@ -3,15 +3,13 @@ from os.path import isfile
 from os import remove
 import shutil
 
-#pipeline_ini_file = "/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering/clustering.ini"
-pipeline_ini_file = "/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/joint/joint.ini"
-pipeline_template_file = "joint_template.ini"
-generate_values_file = True
+pipeline_ini_file = "/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/shear/shear.ini"
+pipeline_template_file = "shear_template.ini"
+generate_values_file = False
 
-pipeline_values_file = "/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/joint/values_joint.ini"
-#pipeline_values_file = "/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_mag/values_clustering_mag.ini"
-fisher_values_file = "values_joint_fisher.ini"
-#grid_values_file = "values_clustering_mag_grid.ini"
+pipeline_values_file = "/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/shear/values_shear.ini"
+fisher_values_file = "values_shear_fisher.ini"
+grid_values_file = "values_shear_grid.ini"
 
 if isfile(pipeline_template_file):
         remove(pipeline_template_file)
@@ -28,7 +26,7 @@ with open(pipeline_ini_file) as f:
                         template_file.write(line)
 
 if generate_values_file == True:
-        #shutil.copyfile(pipeline_values_file, grid_values_file)
+        shutil.copyfile(pipeline_values_file, grid_values_file)
         with open(pipeline_values_file) as g:
                 for line in g:
                         if "=" in line:
