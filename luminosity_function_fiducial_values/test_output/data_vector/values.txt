@@ -1,3 +1,0 @@
-luminosity_like_chi2 = 4363764.238756151
-luminosity_like_log_det = 0.0
-luminosity_like_norm = -0.0
