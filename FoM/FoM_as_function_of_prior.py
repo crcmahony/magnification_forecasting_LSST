@@ -12,7 +12,6 @@ def calculate_FoM_DETF_w_wa(fisher_matrix):
 	FoM = (np.linalg.det(covF[5:7, 5:7]))**(-1.0/2.0)
 	return FoM
 
-
 def add_alpha_bias_prior_to_fisher(alpha_m_sigma, fisher_matrix):
 	prior = np.zeros(fisher_matrix.shape)
 	prior[-2][-2] = 1.0/alpha_m_sigma**2.0
@@ -44,21 +43,6 @@ def generate_FoMs_beta(beta_list, fisher_matrix):
 		FoM_array[i] = calculate_FoM_cos_params(fisher_plus_prior)
 	return FoM_array
 
-"""
-def generate_FoMs_beta(beta_list, fisher_matrix):
-	FoM = {}
-	for i, value in enumerate(beta_list):
-		fisher_plus_prior = add_bias_prior_to_fisher(None, value, fisher_matrix)
-		FoM[value] = calculate_FoM_DETF_w_wa(fisher_plus_prior)
-	return FoM
-	
-def add_bias_prior_to_fisher(alpha_m_sigma, beta_m_sigma, fisher_matrix):
-	prior = np.zeros(fisher_matrix.shape)
-	#prior[-2][-2] = 1.0/alpha_m_sigma**2.0
-	prior[-1][-1] = 1.0/beta_m_sigma**2.0
-	return prior + fisher_matrix	
-"""	
-	
 ### faint
 fisher_faint = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/cacciato_rerun/clustering_fishers/clustering_priors.txt')
 fisher_mag_faint = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/cacciato_rerun/clustering_fishers/clustering_mag_priors.txt')
@@ -71,10 +55,6 @@ alpha_m = np.logspace(-4.0, -1.0, 40)
 #beta_m = np.logspace(-2.0, 2.0, 40)
 #print('beta_m: ', beta_m)
 #print('alpha_m:', alpha_m)
-
-"""
-Generate Figure of Merit Dictionaries
-"""
 
 FoM_arr = generate_FoMs(alpha_m, fisher)
 FoM_mag_arr = generate_FoMs(alpha_m, fisher_mag)
@@ -94,9 +74,6 @@ print('increase: ', FoM_arr_faint[0]/FoM_arr_faint[-1])
 
 fig = plt.figure(figsize=(6,4.5))
 ax = fig.add_subplot(1,1,1)
-#ax.semilogx(*zip(*sorted(FoM.items())), color = 'r', label = '$C_{\epsilon\epsilon}+C_{nn}$ $n$-sample')
-#ax.semilogx(*zip(*sorted(FoM_mag.items())), color = 'orange', label = '$C_{\epsilon\epsilon}+C_{nn}$ $n$-sample including magnification terms')
-
 
 #ax.semilogx(alpha_m, FoM_arr, color = 'b', label = '$C_{nn}$ $\epsilon$-sample')
 #ax.semilogx(alpha_m, FoM_mag_arr, color = 'yellowgreen', label = '$C_{nn}$ $\epsilon$-sample including magnification terms')
