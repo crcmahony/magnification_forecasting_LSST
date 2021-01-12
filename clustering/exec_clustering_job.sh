@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -q mediumc7
-#PBS -N grid_sampler
+#PBS -N clustering
 #PBS -l nodes=1:ppn=1:typeb
 #PBS -l mem=20gb
 
