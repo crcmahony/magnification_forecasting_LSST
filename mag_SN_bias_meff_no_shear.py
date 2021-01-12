@@ -64,12 +64,7 @@ def execute(block, config):
         
         block['galaxy_cl_no_mag_bias', 'ell'] = block[cl_sec, 'ell']
 
-
-        #SN_sec="nz_des_y1wl_a" # "nz_redmagic_a"
-
         cl_shear_sec="galaxy_shear_cl"
-
-
 
         #Loop through bin pairs
         for i in range(1,n_a+1):
@@ -89,6 +84,7 @@ def execute(block, config):
                                 m2 = (1+m0)**2
 
                         #Apply bias and save back to block
+                        print('m2:', m2)
                         cl_new = m2*cl_orig
                         block.replace_double_array_1d(cl_sec,cl_name,cl_new)
 
