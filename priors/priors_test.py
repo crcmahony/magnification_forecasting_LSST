@@ -1,11 +1,10 @@
 import numpy as np
 
-no_priors = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/clustering_mag/output/fisher_clustering_mag3.txt')
+no_priors = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/shear_clustering/rerun_cacciato/shear_clustering.txt')
+with_priors = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/cacciato_rerun/shear_clustering_fishers/shear_clustering_nz_priors_only.txt')
 
-prior = 1/(0.003**2.0)
+prior = 1/(0.001**2.0)
 
-with_priors = np.loadtxt('/unix/atlas4/akorn/LSST/cosmosis/cosmosis/modules/euclid_ias/demos/thesis_results/priors/Fisher_matrices_with_priors/fisher_clustering_mag_priors3.txt')
-
-
-print(no_priors[17,17]+prior)
-print(with_priors[17,17])
+index = 7
+print(no_priors[index,index]+prior)
+print(with_priors[index,index])
